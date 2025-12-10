@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Despesa>
+
+@{
+    ViewData["Title"] = "Despesas";
+}
+
+<div class="container">
+    <div class="my-4">
+        <h1>
+            Despesas do mês de
+            <span class="text-capitalize">
+                @DateTime.Now.ToString("MMMM", new System.Globalization.CultureInfo("pt-BR"))
+            </span>
+        </h1>
+    </div>
+
+    <ul class="list-group">
+        @foreach (var despesa in Model)
+        {
+            <li class="d-flex">
+                <div>
+                    <input class="form-check-input me-2" type="checkbox" checked="@despesa.EstaPago">
+                    
+                    <span>
+                        @despesa.Nome
+                    </span>
+
+                    @if(despesa.TotalParcelas > 1)
+                    {
+                        <span>
+                            @despesa.ParcelaAtual/@despesa.TotalParcelas
+                        </span>
+                    }
+
+                    <span>
+                        @despesa.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                    </span>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <span>
+        Total: @Model.Sum(despesa => despesa.Valor).ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+    </span>
+</div>
