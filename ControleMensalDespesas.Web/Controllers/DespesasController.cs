@@ -75,4 +75,28 @@ public class DespesasController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var despesa = await _context.Despesas.FindAsync(id);
+
+        if (despesa == null) return NotFound();
+
+        return View(despesa);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var despesaExistente = await _context.Despesas.FindAsync(id);
+
+        if (despesaExistente == null) return NotFound();
+
+        _context.Despesas.Remove(despesaExistente);
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
 }

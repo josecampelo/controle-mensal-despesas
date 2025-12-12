@@ -1,0 +1,35 @@
+﻿@model Despesa;
+
+@{
+    ViewData["Title"] = "Excluir Despesa";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Excluir Despesa</h2> <h5 class="alert alert-warning">Tem certeza que deseja excluir isso?</h5>
+    <hr />
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Valor)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Valor)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Categoria)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Categoria)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DataVencimento)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.DataVencimento)</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+
+                <input type="submit" value="Confirmar Exclusão" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
