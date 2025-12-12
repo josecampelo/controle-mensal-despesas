@@ -1,0 +1,76 @@
+﻿@model Despesa;
+
+@{
+    ViewData["Title"] = "Editar Despesa";
+}
+
+<div class="container mt-4">
+    <h2>Editar Despesa</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label asp-for="Nome" class="form-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Valor" class="form-label"></label>
+                    <input asp-for="Valor" class="form-control" />
+                    <span asp-validation-for="Valor" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Categoria" class="form-label"></label>
+                    <select asp-for="Categoria" class="form-select"
+                            asp-items="Html.GetEnumSelectList<Categoria>()">
+                        <option value="">Selecione...</option>
+                    </select>
+                    <span asp-validation-for="Categoria" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DataVencimento" class="form-label"></label>
+                    <input asp-for="DataVencimento" class="form-control" />
+                    <span asp-validation-for="DataVencimento" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label asp-for="ParcelaAtual" class="form-label"></label>
+                        <input asp-for="ParcelaAtual" class="form-control" />
+                        <span asp-validation-for="ParcelaAtual" class="text-danger"></span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label asp-for="TotalParcelas" class="form-label"></label>
+                        <input asp-for="TotalParcelas" class="form-control" />
+                        <span asp-validation-for="TotalParcelas" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" asp-for="EstaPago" />
+                    <label asp-for="EstaPago" class="form-check-label"></label>
+                </div>
+
+                <div class="mt-3">
+                    <input type="submit" value="Salvar" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

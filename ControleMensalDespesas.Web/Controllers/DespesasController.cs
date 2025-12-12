@@ -41,4 +41,38 @@ public class DespesasController : Controller
 
         return View(despesa);
     }
+
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null) return NotFound();
+
+        var despesa = await _context.Despesas.FindAsync(id);
+
+        if (despesa == null) return NotFound();
+
+        return View(despesa);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Despesa despesa)
+    {
+        if (!ModelState.IsValid) return View(despesa);
+
+        var despesaExistente = await _context.Despesas.FindAsync(despesa.Id);
+
+        if (despesaExistente == null) return NotFound();
+
+        despesaExistente.Nome = despesa.Nome;
+        despesaExistente.Categoria = despesa.Categoria;
+        despesaExistente.Valor = despesa.Valor;
+        despesaExistente.EstaPago = despesa.EstaPago;
+        despesaExistente.DataVencimento = despesa.DataVencimento;
+        despesaExistente.ParcelaAtual = despesa.ParcelaAtual;
+        despesaExistente.TotalParcelas = despesa.TotalParcelas;
+        
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
 }
