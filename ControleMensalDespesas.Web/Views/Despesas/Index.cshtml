@@ -5,42 +5,80 @@
 }
 
 <div class="container">
-    <div class="my-4">
-        <h1>
-            Despesas do mês de
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h1 class="m-0">
+            Despesas de
             <span class="text-capitalize">
                 @DateTime.Now.ToString("MMMM", new System.Globalization.CultureInfo("pt-BR"))
             </span>
         </h1>
+
+        <a asp-action="Create" class="btn btn-dark d-flex align-items-center gap-2 " title="Adicionar despesa">
+            <i class="bi bi-plus-circle"></i>
+        </a>
     </div>
 
-    <ul class="list-group">
-        @foreach (var despesa in Model)
-        {
-            <li class="d-flex">
-                <div>
-                    <input class="form-check-input me-2" type="checkbox" checked="@despesa.EstaPago">
-                    
-                    <span>
-                        @despesa.Nome
-                    </span>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="text-center">Pago?</th>
+                    <th scope="col" class="text-center">Nome</th>
+                    <th scope="col" class="text-center">Parcelas</th>
+                    <th scope="col" class="text-center">Valor</th>
+                    <th scope="col" class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var despesa in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input class="form-check-input" type="checkbox" checked="@despesa.EstaPago">
+                        </td>
 
-                    @if(despesa.TotalParcelas > 1)
-                    {
-                        <span>
-                            @despesa.ParcelaAtual/@despesa.TotalParcelas
-                        </span>
-                    }
+                        <td class="text-center">
+                            @despesa.Nome
+                        </td>
 
-                    <span>
-                        @despesa.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
-                    </span>
-                </div>
-            </li>
-        }
-    </ul>
+                        <td class="text-center">
+                            @if (despesa.TotalParcelas > 1)
+                            {
+                                <span class="badge bg-secondary">
+                                    @despesa.ParcelaAtual/@despesa.TotalParcelas
+                                </span>
+                            }
+                        </td>
 
-    <span>
-        Total: @Model.Sum(despesa => despesa.Valor).ToString("C", new System.Globalization.CultureInfo("pt-BR"))
-    </span>
+                        <td class="text-center">
+                            @despesa.Valor.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                        </td>
+
+                        <td class="text-center">
+                            <a asp-controller="Despesas" asp-action="Edit" asp-route-id="@despesa.Id"
+                               class="text-dark mx-2 text-decoration-none" title="Editar">
+                                <i class="bi bi-pencil-square fs-5"></i>
+                            </a>
+
+                            <a asp-controller="Despesas" asp-action="Delete" asp-route-id="@despesa.Id"
+                               class="text-dark text-decoration-none" title="Excluir">
+                                <i class="bi bi-trash fs-5"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="fw-bold">
+                    <td class="text-center">Total:</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center">
+                        @Model.Sum(d => d.Valor).ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                    </td>
+                    <td class="text-center"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>
